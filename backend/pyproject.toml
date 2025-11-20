@@ -1,0 +1,34 @@
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = [
+    "E",   # PyCodeStyle Errors
+    "W",   # PyCodeStyle Warnings
+    "F",   # PyFlakes
+    "UP",  # PyUpgrade
+    "B",   # Flake8-Bugbear
+    "SIM", # Flake8-Simplify
+    "I",   # ISort
+    "N",   # PEP8 Naming
+    "PL",  # PyLint Convention
+    "ANN", # Flake8 Annotations (Typing Enforcement)
+
+    # Preview Rules
+    "E262", # no-space-after-inline-comment
+    "E271", # multiple-spaces-after-keyword
+    "E272", # multiple-spaces-before-keyword
+    "E275", # missing-whitespace-after-keyword
+    "E301", # blank-line-between-methods
+    "E302", # blank-lines-top-level
+    "E303", # too-many-blank-lines
+    "E304", # blank-line-after-decorator
+    "E305", # blank-lines-after-function-or-class"
+    "W391", # too-many-newlines-at-end-of-file
+]
+preview = true
+explicit-preview-rules = true
+
+# NOTE: Pattern can be negated (!) to apply a rule everywhere except in the specified file(s).
+[tool.ruff.lint.per-file-ignores]
+"!api.py" = ["ANN"]
