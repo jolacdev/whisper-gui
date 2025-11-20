@@ -40,7 +40,20 @@ pyz = PYZ(analysis.pure, analysis.zipped_data, cipher=block_cipher)
 # ------------------------------------------------------------
 # Step 3: Build the final Windows executable
 # ------------------------------------------------------------
+from pathlib import Path
+from typing import Literal
+import os
 import sys
+
+
+def get_icon_name() -> Literal["logo.ico", "logo.icns", "NONE"]:
+    icon = "./logo.ico" if is_windows else "./logo.icns" if is_macos else None
+    if not icon:
+        return "NONE"
+
+    icon_absolute_path = Path(SPECPATH).resolve() / icon
+    return icon if os.path.exists(icon_absolute_path) else "NONE"
+
 
 is_windows = sys.platform == "win32"
 is_macos = sys.platform == "darwin"
@@ -56,7 +69,8 @@ common_kwargs = dict(
 
 # Windows / macOS only
 bundle_identifier = "com.example.whisper_gui"
-icon = "./logo.ico" if is_windows else "./logo.icns" if is_macos else "NONE"
+icon = get_icon_name()
+
 win_macos_kwargs = dict(
     console=False,  # Show OS terminal for standard I/O. Ignored for .pyw scripts on Windows.
     icon=icon,  # App icon (.ico for Windows, .icns for macOS). Can translate other images if Pillow is installed. Use "NONE" to not apply any icon.
@@ -89,6 +103,12 @@ if is_windows:
         **win_macos_kwargs,
     )
 elif is_macos:
+    bundle_kwargs = dict(
+        name=f"{application_name}.app",
+        bundle_identifier=bundle_identifier,  # Unique macOS app ID for code signing
+        **({"icon": icon} if icon != "NONE" else {}),
+    )
+
     app = BUNDLE(
         EXE(
             pyz,
@@ -102,12 +122,8 @@ elif is_macos:
             **win_macos_kwargs,
             **macos_kwargs,
         ),
-        name=f"{application_name}.app",
-        icon=icon,
-        bundle_identifier=bundle_identifier,  # Unique macOS app ID for code signing
+        **bundle_kwargs,
     )
-
-    import os
 
     try:
         os.remove(os.path.join("dist", application_name))
