@@ -6,9 +6,9 @@ import faster_whisper
 import webview
 from pyflow import extensity
 
-from constants import AUDIO_EXTENSIONS, VIDEO_EXTENSIONS
 from schemas.transcription import TranscriptionSegment
 from service.whisper_service import whisper_service
+from utils.media_utils import get_media_dialog_file_types
 from utils.time_utils import format_seconds_to_srt_time as secs_to_srt
 from utils.whisper_utils import format_segments
 
@@ -23,11 +23,8 @@ class PyWebViewApi:
     """Python API functions exposed to JavaScript."""
 
     def open_file_dialog(self) -> Optional[str]:
-        file_types = (
-            f"Media Files ({';'.join(AUDIO_EXTENSIONS + VIDEO_EXTENSIONS)})",
-            f"Audio Files ({';'.join(AUDIO_EXTENSIONS)})",
-            f"Video Files ({';'.join(VIDEO_EXTENSIONS)})",
-        )
+        file_types = get_media_dialog_file_types()
+
         if not (
             result := webview.windows[0].create_file_dialog(
                 webview.FileDialog.OPEN, allow_multiple=False, file_types=file_types
