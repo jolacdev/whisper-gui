@@ -1,9 +1,12 @@
+import logging
 from typing import Any
 
 import webview
 from webview.dom import DOMEventHandler
 
 from constants import AllowedDropzoneId
+
+logger = logging.getLogger(__name__)
 
 
 def on_drag(_: dict[str, Any]) -> None:
@@ -32,11 +35,10 @@ def on_drop(event: dict[str, Any]) -> None:
     if len(files) and target_id == AllowedDropzoneId.FILE_DROPZONE:
         webview.windows[0].state.file = files[0].get("pywebviewFullPath")
 
-    # Debug.
-    print(f"Event type: {event['type']}. Dropped {len(files)} file(s):")
+    logger.debug("Event type: %s. Dropped %s file(s):", event["type"], len(files))
     for file in files:
         if file_path := file.get("pywebviewFullPath"):
-            print(f"  - {file_path}")
+            logger.debug("  - %s", file_path)
 
 
 def bind_drag_drop_events(window: webview.Window) -> None:
