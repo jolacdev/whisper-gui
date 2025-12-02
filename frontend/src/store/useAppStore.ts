@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { File } from 'types/pywebview/pywebview-api';
+
 type StoreState = {
-  file: null | string;
+  file: File | null;
   model: null | string;
 };
 
 type StoreActions = {
-  setFile: (absolutePath: string) => void;
+  setFile: (file: File) => void;
 };
 
 type Store = StoreState & StoreActions;
@@ -23,7 +25,7 @@ const useAppStore = create<Store>()(
       ...initialState,
 
       // Actions
-      setFile: (absolutePath: string) => set({ file: absolutePath }),
+      setFile: (file) => set({ file }),
     };
 
     return store;

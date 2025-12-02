@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { PyWebViewStateEventDetail } from 'types/pywebview/pywebview-state';
 
 type UsePyWebViewProps<T> = {

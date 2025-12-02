@@ -1,14 +1,15 @@
 import logging
 from time import time
-from typing import Optional
+from typing import Optional, Union
 
 import faster_whisper
 import webview
 from pyflow import extensity
 
+from schemas.file import File
 from schemas.transcription import TranscriptionSegment
 from service.whisper_service import whisper_service
-from utils.media_utils import get_media_dialog_file_types
+from utils.media_utils import get_file_from_path, get_media_dialog_file_types
 from utils.time_utils import format_seconds_to_srt_time as secs_to_srt
 from utils.whisper_utils import format_segments
 
@@ -22,18 +23,24 @@ logger = logging.getLogger(__name__)
 class PyWebViewApi:
     """Python API functions exposed to JavaScript."""
 
-    def open_file_dialog(self) -> Optional[str]:
+    # def _gen_types(self) -> Union[TranscriptionSegment, File, None]:
+    #     """Method to expose and generate types for PyFlow-TS."""
+    #     return None
+
+    def open_file_dialog(self) -> Optional[File]:
         file_types = get_media_dialog_file_types()
 
-        if not (
-            result := webview.windows[0].create_file_dialog(
-                webview.FileDialog.OPEN, allow_multiple=False, file_types=file_types
-            )
-        ):
+        result = webview.windows[0].create_file_dialog(
+            webview.FileDialog.OPEN, allow_multiple=False, file_types=file_types
+        )
+
+        if not result:
             return None
 
-        filename = str(result) if not isinstance(result, (tuple, list)) else str(result[0])
-        return filename
+        file_path = str(result) if not isinstance(result, (tuple, list)) else str(result[0])
+        file = get_file_from_path(file_path)
+        logger.info("File picked: %s", file)
+        return file
 
     # TODO: Print messages for debugging purposes, remove whe not needed.
     # TODO: Online audio example: https://keithito.com/LJ-Speech-Dataset/LJ037-0171.wav

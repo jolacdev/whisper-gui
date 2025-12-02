@@ -1,4 +1,5 @@
 import {
+  File,
   PyWebViewApi,
   TranscriptionSegment,
 } from 'types/pywebview/pywebview-api';
@@ -11,7 +12,13 @@ const mockState: PyWebViewState = {
 };
 
 const mockApi: PyWebViewApi = {
-  open_file_dialog: (): Promise<null | string> => Promise.resolve('sample.mp3'),
+  open_file_dialog: (): Promise<File | null> =>
+    Promise.resolve({
+      absolutePath: '/test/sample.mp3',
+      name: 'sample.mp3',
+      size: 1024,
+      type: 'audio/mp3',
+    }),
   run_transcription: (
     _file_path: string,
     _model_name: string,

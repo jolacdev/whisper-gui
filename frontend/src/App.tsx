@@ -7,9 +7,9 @@ const App = () => {
   const [filePath, setFilePath] = useState<string>();
 
   const handleFileSelection = async () => {
-    const path = await window.pywebview.api.open_file_dialog();
-    if (path) {
-      setFilePath(path);
+    const file = await window.pywebview.api.open_file_dialog();
+    if (file) {
+      setFilePath(file.absolutePath);
     }
   };
 
