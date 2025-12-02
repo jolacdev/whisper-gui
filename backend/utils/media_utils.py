@@ -33,9 +33,11 @@ def get_file_from_path(file_path: str) -> File | None:
         return None
 
     mime_type, _encoding = guess_file_type(file_path)
+    type = mime_type.split("/")[0] if mime_type else ""
+
     return {
         "name": file.name,
         "size": file.stat().st_size,
-        "type": mime_type or "",
+        "type": type,
         "absolutePath": str(file.resolve()),
     }

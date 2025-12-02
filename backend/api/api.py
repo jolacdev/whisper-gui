@@ -1,6 +1,6 @@
 import logging
 from time import time
-from typing import Optional, Union
+from typing import Optional
 
 import faster_whisper
 import webview
