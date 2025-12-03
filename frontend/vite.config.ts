@@ -24,6 +24,7 @@ export default defineConfig({
       '@features': path.resolve(__dirname, './src/features'),
       '@hooks': path.resolve(__dirname, './src/shared/hooks'),
       '@icons': path.resolve(__dirname, './src/shared/icons'),
+      '@utils': path.resolve(__dirname, './src/shared/utils'),
       store: path.resolve(__dirname, './src/store'),
       types: path.resolve(__dirname, './src/types'),
     },

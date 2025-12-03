@@ -26,6 +26,7 @@
       "@features/*": ["./src/features/*"],
       "@hooks/*": ["./src/shared/hooks/*"],
       "@icons/*": ["./src/shared/icons/*"],
+      "@utils/*": ["./src/shared/utils/*"],
       "store/*": ["./src/store/*"],
       "types/*": ["./src/types/*"]
     }
