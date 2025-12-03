@@ -9,6 +9,7 @@ type StoreState = {
 };
 
 type StoreActions = {
+  clearFile: () => void;
   setFile: (file: File) => void;
 };
 
@@ -25,6 +26,7 @@ const useAppStore = create<Store>()(
       ...initialState,
 
       // Actions
+      clearFile: () => set({ file: null }),
       setFile: (file) => set({ file }),
     };
 
