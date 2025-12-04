@@ -1,7 +1,14 @@
-export type PyWebViewStateEventDetail = {
-  key: string;
-  value: unknown;
-};
+import { File } from './pywebview-api';
+
+export type PyWebViewStateEventDetail =
+  | {
+      key: 'file';
+      value: File;
+    }
+  | {
+      key: string;
+      value: unknown;
+    };
 
 export type PyWebViewState = Record<string, unknown> &
   EventTarget & {

@@ -5,20 +5,33 @@ import {
 } from 'types/pywebview/pywebview-api';
 import { PyWebViewState } from 'types/pywebview/pywebview-state';
 
-const mockState: PyWebViewState = {
-  addEventListener: () => {},
-  dispatchEvent: () => true,
-  removeEventListener: () => {},
+const eventTarget = new EventTarget();
+
+const mockState: PyWebViewState & { [key: string]: unknown } = {
+  // @ts-expect-error Workaround for standalone
+  addEventListener: (...args) => eventTarget.addEventListener(...args),
+  dispatchEvent: (...args) => eventTarget.dispatchEvent(...args),
+  // @ts-expect-error Workaround for standalone
+  removeEventListener: (...args) => eventTarget.removeEventListener(...args),
 };
 
 const mockApi: PyWebViewApi = {
-  open_file_dialog: (): Promise<File | null> =>
-    Promise.resolve({
+  open_file_dialog: (): Promise<File | null> => {
+    const mockFile: File = {
       absolutePath: '/test/sample.mp3',
-      name: 'sample.mp3',
-      size: 1024,
-      type: 'audio/mp3',
-    }),
+      name: 'sample fdsdshj jksdhjfkhewjkd hsjk hjkdshf jkds dhjsfhjkdhjk wehjkehkjfwekjhfwehkjfwedhhkj whejk hewjkhjkwehjkewhjkfewhjkfewhjkfwehkjfewhkj kj fhjkewhjewkjhkewfhjkfewhjkwef.mp3',
+      size: 1887436,
+      type: 'asdsfdsf',
+    };
+
+    mockState.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { key: 'file', value: mockFile },
+      }),
+    );
+    mockState.file = mockFile;
+    return Promise.resolve(mockFile);
+  },
   run_transcription: (
     _file_path: string,
     _model_name: string,
