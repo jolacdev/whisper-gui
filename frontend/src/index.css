@@ -58,4 +58,7 @@
 body {
   margin: 0 auto;
   max-width: 80rem; /* 1280px */
+  font-family:
+    'Helvetica', 'Arial', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }

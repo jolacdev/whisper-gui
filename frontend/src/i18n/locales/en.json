@@ -1,5 +1,12 @@
 {
   "app": {
-    "title": "PyWhisper Studio"
+    "title": "PyWhisper Studio",
+    "fileSelector": {
+      "selectedFilePreview": {
+        "tooltip": {
+          "delete": "Delete file"
+        }
+      }
+    }
   }
 }

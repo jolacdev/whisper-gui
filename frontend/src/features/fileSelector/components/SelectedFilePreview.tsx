@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Button from '@components/Button';
 import { AudioFile } from '@icons/AudioFile';
@@ -29,31 +30,32 @@ const SelectedFilePreview = ({
   size,
   type,
 }: FilePreviewProps) => {
+  const { t } = useTranslation(undefined, {
+    keyPrefix: 'fileSelector.selectedFilePreview',
+  });
+
   const icon: ReactElement = isMediaType(type) ? iconMap[type] : <Draft />;
 
   return (
-    <article className="bg-base-200 flex justify-between rounded-lg p-4">
-      <figure className="flex min-w-0 items-center gap-4">
+    <article className="hover:bg-charcoal-700 flex max-h-8 justify-between rounded-lg p-1 transition-colors duration-300 ease-in-out">
+      <figure className="flex min-w-0 items-center gap-2">
         <div>{icon}</div>
-        <figcaption
-          className="tooltip mr-6 flex min-w-0 flex-col gap-1"
-          data-tip={name}
+        <div
+          aria-label={`File size: ${size}`}
+          className="border-charcoal-500 rounded-lg border-1 px-1 text-sm text-nowrap"
         >
-          <span aria-label={name} className="truncate text-white">
-            {name}
-          </span>
-          {/* TODO: Add aria-label i18n support. */}
-          <span aria-label={`File size: ${size}`} className="text-xs">
-            {size}
-          </span>
+          {size}
+        </div>
+        <figcaption aria-label={name} className="truncate text-sm" title={name}>
+          {name}
         </figcaption>
       </figure>
 
       <Button
-        // TODO: Add aria-label i18n support.
-        aria-label={`Delete file ${name}`}
+        aria-label={t('tooltip.delete')}
         className="btn-ghost"
         iconLeft={<Delete />}
+        title={t('tooltip.delete')}
         onClick={onDelete}
       />
     </article>
