@@ -36,4 +36,4 @@ AUDIO_EXTENSIONS = [
 # Dropzones
 # NOTE: Inheriting from (str, Enum) allows direct string comparison. (e.g., "Value1" == SomeEnum.Value1)
 class AllowedDropzoneId(str, Enum):
-    FILE_DROPZONE = "file-dropzone"
+    TRANSCRIPTION_FILE_SELECTOR_DROPZONE_ID = "file-dropzone"
