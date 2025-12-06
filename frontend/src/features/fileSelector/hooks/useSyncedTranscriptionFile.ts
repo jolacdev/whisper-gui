@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import usePyWebViewState from '@hooks/usePyWebViewState';
-import useAppStore from 'store/useAppStore';
+import useAppStore from '@store/useAppStore';
 import { File } from 'types/pywebview/pywebview-api';
 
 const useSyncedTranscriptionFile = () => {

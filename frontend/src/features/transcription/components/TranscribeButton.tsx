@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '@components/Button';
 import { SpeechToText } from '@icons/SpeechToText';
-import useAppStore from 'store/useAppStore';
+import useAppStore from '@store/useAppStore';
 
 const TranscribeButton = () => {
   const { t } = useTranslation(undefined, { keyPrefix: 'actions' });
