@@ -1,10 +1,11 @@
 import cx from 'classnames';
 import { DragEvent, ReactElement, useState } from 'react';
 
-import SelectedFilePreview from '@features/fileSelector/components/SelectedFilePreview';
 import { Upload } from '@icons/Upload';
 import { formatSizeUnit } from '@utils/formatSizeUnit';
 import { File } from 'types/pywebview/pywebview-api';
+
+import SelectedFilePreview from './SelectedFilePreview';
 
 export type DropzoneContent = {
   description: string;
