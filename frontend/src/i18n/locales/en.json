@@ -1,6 +1,9 @@
 {
   "app": {
     "title": "PyWhisper Studio",
+    "actions": {
+      "transcribe": "Transcribe"
+    },
     "fileSelector": {
       "selectedFilePreview": {
         "tooltip": {
