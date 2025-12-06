@@ -54,7 +54,7 @@ const SelectedFilePreview = ({
       <Button
         aria-label={t('tooltip.delete')}
         className="btn-ghost"
-        iconLeft={<Delete />}
+        iconLeft={<Delete className="hover:fill-red-400" />}
         title={t('tooltip.delete')}
         onClick={onDelete}
       />
