@@ -21,17 +21,20 @@ const initialState: StoreState = {
 };
 
 const useAppStore = create<Store>()(
-  devtools((set) => {
-    const store: Store = {
-      ...initialState,
+  devtools(
+    (set) => {
+      const store: Store = {
+        ...initialState,
 
-      // Actions
-      clearFile: () => set({ file: null }),
-      setFile: (file) => set({ file }),
-    };
+        // Actions
+        clearFile: () => set({ file: null }, undefined, 'file/clear'),
+        setFile: (file) => set({ file }, undefined, 'file/set'),
+      };
 
-    return store;
-  }),
+      return store;
+    },
+    { store: 'appStore' },
+  ),
 );
 
 export default useAppStore;
