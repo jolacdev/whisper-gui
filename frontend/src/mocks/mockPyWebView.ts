@@ -7,13 +7,16 @@ import { PyWebViewState } from 'types/pywebview/pywebview-state';
 
 const eventTarget = new EventTarget();
 
-// TODO: Update mock to support TypeScript and use an easier approach.
-const mockState: PyWebViewState & { [key: string]: unknown } = {
-  // @ts-expect-error Workaround for standalone
-  addEventListener: (...args) => eventTarget.addEventListener(...args),
-  dispatchEvent: (...args) => eventTarget.dispatchEvent(...args),
-  // @ts-expect-error Workaround for standalone
-  removeEventListener: (...args) => eventTarget.removeEventListener(...args),
+const mockState: PyWebViewState = {
+  addEventListener(type, callback, options) {
+    eventTarget.addEventListener(type, callback as EventListener, options);
+  },
+  dispatchEvent(event) {
+    return eventTarget.dispatchEvent(event);
+  },
+  removeEventListener(type, callback, options) {
+    eventTarget.removeEventListener(type, callback as EventListener, options);
+  },
 };
 
 const mockApi: PyWebViewApi = {
