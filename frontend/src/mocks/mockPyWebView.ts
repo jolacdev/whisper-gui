@@ -5,20 +5,36 @@ import {
 } from 'types/pywebview/pywebview-api';
 import { PyWebViewState } from 'types/pywebview/pywebview-state';
 
-const mockState: PyWebViewState = {
-  addEventListener: () => {},
-  dispatchEvent: () => true,
-  removeEventListener: () => {},
+const eventTarget = new EventTarget();
+
+// TODO: Update mock to support TypeScript and use an easier approach.
+const mockState: PyWebViewState & { [key: string]: unknown } = {
+  // @ts-expect-error Workaround for standalone
+  addEventListener: (...args) => eventTarget.addEventListener(...args),
+  dispatchEvent: (...args) => eventTarget.dispatchEvent(...args),
+  // @ts-expect-error Workaround for standalone
+  removeEventListener: (...args) => eventTarget.removeEventListener(...args),
 };
 
 const mockApi: PyWebViewApi = {
-  open_file_dialog: (): Promise<File | null> =>
-    Promise.resolve({
-      absolutePath: '/test/sample.mp3',
-      name: 'sample.mp3',
-      size: 1024,
-      type: 'audio/mp3',
-    }),
+  open_file_dialog: (): Promise<File | null> => {
+    const mockFile: File = {
+      name: 'The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.Extended.1080p.BluRay.DTS.x264-UltraHD.Remastered.avi',
+      size: 1887436,
+      type: 'video',
+      absolutePath:
+        '/home/User/The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.Extended.1080p.BluRay.DTS.x264-UltraHD.Remastered.avi',
+    };
+
+    mockState.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { key: 'file', value: mockFile },
+      }),
+    );
+
+    mockState.file = mockFile;
+    return Promise.resolve(mockFile);
+  },
   run_transcription: (
     _file_path: string,
     _model_name: string,
