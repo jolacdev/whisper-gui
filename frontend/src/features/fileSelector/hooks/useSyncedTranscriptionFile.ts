@@ -46,9 +46,8 @@ const useSyncedTranscriptionFile = () => {
     window.pywebview.state.file = newFile;
   };
 
-  // Clears both the store and the Python state.
+  // Automatically triggers change event to update the store via useEffect.
   const handleClearFile = () => {
-    clearFile();
     window.pywebview.state.file = null;
   };
 
