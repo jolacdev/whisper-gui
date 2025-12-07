@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '@components/Button';
@@ -9,16 +10,21 @@ const TranscribeButton = () => {
 
   const file = useAppStore((state) => state.file);
 
+  // TODO: Temporary local state for transcribing status.
+  const [isTranscribing, setIsTranscribing] = useState(false);
+
   const handleRunTranscription = async (path: string) => {
+    setIsTranscribing(true);
     // TODO: Temporarily hardcoded model.
     const segments = await window.pywebview.api.run_transcription(path, 'base');
     console.log({ segments }); // TODO: Remove and handle segments.
+    setIsTranscribing(false);
   };
 
   return (
     <Button
       className="btn-primary p-2"
-      disabled={!file}
+      disabled={!file || isTranscribing}
       iconLeft={<SpeechToText />}
       onClick={
         file ? () => handleRunTranscription(file.absolutePath) : undefined
