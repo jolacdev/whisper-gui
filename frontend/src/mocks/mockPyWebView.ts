@@ -7,7 +7,7 @@ import { PyWebViewState } from 'types/pywebview/pywebview-state';
 
 const eventTarget = new EventTarget();
 
-const mockState: PyWebViewState = {
+const baseState: PyWebViewState = {
   addEventListener(type, callback, options) {
     eventTarget.addEventListener(type, callback as EventListener, options);
   },
@@ -19,6 +19,23 @@ const mockState: PyWebViewState = {
   },
 };
 
+// Wrap baseState in a Proxy to intercept property sets and automatically dispatch `change` events
+const mockState = new Proxy(baseState, {
+  set(target, prop: string, value) {
+    // Set the value on the actual target.
+    target[prop] = value;
+
+    // Mimic PyWebView behavior by automatically dispatching a `change` event on property set.
+    target.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { key: prop, value },
+      }),
+    );
+
+    return true;
+  },
+});
+
 const mockApi: PyWebViewApi = {
   open_file_dialog: (): Promise<File | null> => {
     const mockFile: File = {
@@ -28,12 +45,6 @@ const mockApi: PyWebViewApi = {
       absolutePath:
         '/home/User/The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.Extended.1080p.BluRay.DTS.x264-UltraHD.Remastered.avi',
     };
-
-    mockState.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { key: 'file', value: mockFile },
-      }),
-    );
 
     mockState.file = mockFile;
     return Promise.resolve(mockFile);
