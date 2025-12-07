@@ -53,7 +53,8 @@ const mockApi: PyWebViewApi = {
     _file_path: string,
     _model_name: string,
   ): Promise<TranscriptionSegment[]> => {
-    const segments: TranscriptionSegment[] = [
+    const mockDelay = 2000;
+    const mockSegments: TranscriptionSegment[] = [
       {
         id: 1,
         end: 7.44,
@@ -74,7 +75,9 @@ const mockApi: PyWebViewApi = {
       },
     ];
 
-    return Promise.resolve(segments);
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockSegments), mockDelay);
+    });
   },
 };
 
