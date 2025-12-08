@@ -2,7 +2,7 @@ from mimetypes import guess_file_type
 from pathlib import Path
 
 from constants import AUDIO_EXTENSIONS, VIDEO_EXTENSIONS
-from schemas.file import File
+from schemas.file_metadata import FileMetadata
 
 
 def is_media_file(file_path: str) -> bool:
@@ -25,7 +25,7 @@ def get_media_dialog_file_types() -> tuple[str, ...]:
     return file_types
 
 
-def get_file_from_path(file_path: str) -> File | None:
+def get_file_from_path(file_path: str) -> FileMetadata | None:
     """Returns the file metadata for the given path."""
     file = Path(file_path)
 

@@ -6,7 +6,7 @@ import faster_whisper
 import webview
 from pyflow import extensity
 
-from schemas.file import File
+from schemas.file_metadata import FileMetadata
 from schemas.transcription import TranscriptionSegment
 from service.whisper_service import whisper_service
 from utils.media_utils import get_file_from_path, get_media_dialog_file_types
@@ -23,11 +23,11 @@ logger = logging.getLogger(__name__)
 class PyWebViewApi:
     """Python API functions exposed to JavaScript."""
 
-    # def _gen_types(self) -> Union[TranscriptionSegment, File, None]:
+    # def _gen_types(self) -> Union[TranscriptionSegment, FileMetadata, None]:
     #     """Method to expose and generate types for PyFlow-TS."""
     #     return None
 
-    def open_file_dialog(self) -> Optional[File]:
+    def open_file_dialog(self) -> Optional[FileMetadata]:
         file_types = get_media_dialog_file_types()
 
         result = webview.windows[0].create_file_dialog(

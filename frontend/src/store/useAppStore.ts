@@ -1,16 +1,16 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { File } from 'types/pywebview/pywebview-api';
+import { FileMetadata } from 'types/pywebview/pywebview-api';
 
 type StoreState = {
-  file: File | null;
+  file: FileMetadata | null;
   model: null | string;
 };
 
 type StoreActions = {
   clearFile: () => void;
-  setFile: (file: File) => void;
+  setFile: (file: FileMetadata) => void;
 };
 
 type Store = StoreState & StoreActions;

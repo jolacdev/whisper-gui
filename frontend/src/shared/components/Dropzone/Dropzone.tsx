@@ -3,7 +3,7 @@ import { DragEvent, ReactElement, useState } from 'react';
 
 import { Upload } from '@icons/Upload';
 import { formatSizeUnit } from '@utils/formatSizeUnit';
-import { File } from 'types/pywebview/pywebview-api';
+import { FileMetadata } from 'types/pywebview/pywebview-api';
 
 import SelectedFilePreview from './SelectedFilePreview';
 
@@ -16,8 +16,8 @@ export type DropzoneContent = {
 type DropzoneProps = {
   id: string;
   content: DropzoneContent;
-  file?: File;
-  onClick: (file: File | null) => void;
+  file?: FileMetadata;
+  onClick: (file: FileMetadata | null) => void;
   onDelete: () => void;
 };
 

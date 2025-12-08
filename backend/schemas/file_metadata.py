@@ -1,7 +1,7 @@
 from typing import TypedDict
 
 
-class File(TypedDict):
+class FileMetadata(TypedDict):
     """
     Represents a file selected in the application.
 

@@ -1,5 +1,5 @@
 import {
-  File,
+  FileMetadata,
   PyWebViewApi,
   TranscriptionSegment,
 } from 'types/pywebview/pywebview-api';
@@ -37,8 +37,8 @@ const mockState = new Proxy(baseState, {
 });
 
 const mockApi: PyWebViewApi = {
-  open_file_dialog: (): Promise<File | null> => {
-    const mockFile: File = {
+  open_file_dialog: (): Promise<FileMetadata | null> => {
+    const mockFile: FileMetadata = {
       name: 'The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.Extended.1080p.BluRay.DTS.x264-UltraHD.Remastered.avi',
       size: 1887436,
       type: 'video',
