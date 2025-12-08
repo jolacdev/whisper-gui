@@ -5,7 +5,7 @@ import webview
 from webview.dom import DOMEventHandler
 
 from constants import AllowedDropzoneId
-from utils.media_utils import get_file_from_path, is_media_file
+from utils.media_utils import get_file_metadata_from_path, is_media_file
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ def on_drop(event: dict[str, Any]) -> None:
     # TODO: Support multiple file drops.
     if target_id == AllowedDropzoneId.TRANSCRIPTION_FILE_SELECTOR_DROPZONE_ID and len(files):
         file_path = files[0].get("pywebviewFullPath")
-        if is_media_file(file_path) and (file := get_file_from_path(file_path)):
+        if is_media_file(file_path) and (file := get_file_metadata_from_path(file_path)):
             webview.windows[0].state.file = file
             logger.info("File dropped: %s", file)
 

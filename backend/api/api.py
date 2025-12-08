@@ -9,7 +9,7 @@ from pyflow import extensity
 from schemas.file_metadata import FileMetadata
 from schemas.transcription import TranscriptionSegment
 from service.whisper_service import whisper_service
-from utils.media_utils import get_file_from_path, get_media_dialog_file_types
+from utils.media_utils import get_file_metadata_from_path, get_media_dialog_file_types
 from utils.time_utils import format_seconds_to_srt_time as secs_to_srt
 from utils.whisper_utils import format_segments
 
@@ -38,7 +38,7 @@ class PyWebViewApi:
             return None
 
         file_path = str(result) if not isinstance(result, (tuple, list)) else str(result[0])
-        file = get_file_from_path(file_path)
+        file = get_file_metadata_from_path(file_path)
         logger.info("File picked: %s", file)
         return file
 

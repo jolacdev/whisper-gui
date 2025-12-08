@@ -25,7 +25,7 @@ def get_media_dialog_file_types() -> tuple[str, ...]:
     return file_types
 
 
-def get_file_from_path(file_path: str) -> FileMetadata | None:
+def get_file_metadata_from_path(file_path: str) -> FileMetadata | None:
     """Returns the file metadata for the given path."""
     file = Path(file_path)
 
