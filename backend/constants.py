@@ -35,5 +35,6 @@ AUDIO_EXTENSIONS = [
 
 # Dropzones
 # NOTE: Inheriting from (str, Enum) allows direct string comparison. (e.g., "Value1" == SomeEnum.Value1)
+# NOTE: Must match the corresponding constant in the React code.
 class AllowedDropzoneId(str, Enum):
     TRANSCRIPTION_FILE_SELECTOR_DROPZONE_ID = "file-dropzone"
