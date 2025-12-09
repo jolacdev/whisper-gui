@@ -1,22 +1,61 @@
 import {
+  FileMetadata,
   PyWebViewApi,
   TranscriptionSegment,
-} from '../types/pywebview/pywebview-api';
-import { PyWebViewState } from '../types/pywebview/pywebview-state';
+} from 'types/pywebview/pywebview-api';
+import { PyWebViewState } from 'types/pywebview/pywebview-state';
 
-const mockState: PyWebViewState = {
-  addEventListener: () => {},
-  dispatchEvent: () => true,
-  removeEventListener: () => {},
+const eventTarget = new EventTarget();
+
+const baseState: PyWebViewState = {
+  transcriptionFile: null,
+  addEventListener(type, callback, options) {
+    eventTarget.addEventListener(type, callback as EventListener, options);
+  },
+  dispatchEvent(event) {
+    return eventTarget.dispatchEvent(event);
+  },
+  removeEventListener(type, callback, options) {
+    eventTarget.removeEventListener(type, callback as EventListener, options);
+  },
 };
 
+// Wrap baseState in a Proxy to intercept property sets and automatically dispatch `change` events
+const mockState = new Proxy(baseState, {
+  set(target, prop: string, value) {
+    // Set the value on the actual target.
+    Reflect.set(target, prop, value); // Equals to: target[prop] = value;
+
+    // Mimic PyWebView behavior by automatically dispatching a `change` event on property set.
+    target.dispatchEvent(
+      new CustomEvent('change', {
+        detail: { key: prop, value },
+      }),
+    );
+
+    return true;
+  },
+});
+
 const mockApi: PyWebViewApi = {
-  open_file_dialog: (): Promise<null | string> => Promise.resolve('sample.mp3'),
+  open_file_dialog: (): Promise<FileMetadata | null> => {
+    const mockFile: FileMetadata = {
+      name: 'The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.Extended.1080p.BluRay.DTS.x264-UltraHD.Remastered.avi',
+      size: 1887436,
+      type: 'video',
+      absolutePath:
+        '/home/User/The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.Extended.1080p.BluRay.DTS.x264-UltraHD.Remastered.avi',
+    };
+
+    mockState.transcriptionFile = mockFile;
+    return Promise.resolve(mockFile);
+  },
   run_transcription: (
     _file_path: string,
     _model_name: string,
   ): Promise<TranscriptionSegment[]> => {
-    const segments: TranscriptionSegment[] = [
+    const mockDelay = 2000;
+    const mockSegments: TranscriptionSegment[] = [
       {
         id: 1,
         end: 7.44,
@@ -37,7 +76,9 @@ const mockApi: PyWebViewApi = {
       },
     ];
 
-    return Promise.resolve(segments);
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(mockSegments), mockDelay);
+    });
   },
 };
 

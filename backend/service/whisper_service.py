@@ -33,7 +33,12 @@ class WhisperModelService:
         os.makedirs(models_dir, exist_ok=True)
 
         logger.info("Loading model '%s'.", model_name)
-        self._model = WhisperModel(model_name, download_root=models_dir)
+
+        # TODO: Workaround - GPU initialization fails with "Could not locate cudnn_ops64_9.dll".
+        # Switch back to device="auto" once fixed.
+        device = "cpu"
+
+        self._model = WhisperModel(model_name, download_root=models_dir, device=device)
         self._current_model_name = model_name
         logger.info("Model '%s' loaded from '%s' successfully.", model_name, models_dir)
 

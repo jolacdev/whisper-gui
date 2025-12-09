@@ -1,4 +1,33 @@
 @import 'tailwindcss';
+@plugin 'daisyui';
+
+/* NOTE: https://daisyui.com/docs/themes/#-7 */
+/* Enable only 'business' theme. */
+@plugin 'daisyui' {
+  themes: business;
+}
+
+/* Customize 'business' theme. */
+@plugin 'daisyui/theme' {
+  name: 'business';
+  default: true;
+  --color-primary: #209a58;
+}
+
+[data-theme='business'] {
+  .btn {
+    &:active,
+    &.btn-active {
+      translate: 0 1px;
+    }
+  }
+
+  .btn-ghost {
+    border-width: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+}
 
 @theme {
   --color-charcoal-50: #f1f1f1;
@@ -28,9 +57,8 @@
 
 body {
   margin: 0 auto;
-  padding: 0;
-  @apply bg-charcoal-950;
-  @apply text-charcoal-200;
-
   max-width: 80rem; /* 1280px */
+  font-family:
+    'Helvetica', 'Arial', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }

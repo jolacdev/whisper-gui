@@ -175,12 +175,12 @@ export default [
         },
       ],
 
-      // Allows spreading in JSX components (<MyCustomComponent {...props} />) and SVGs, and forbid on everything else (HTML tags, etc.)
+      // Only allows spreading in JSX components (<MyCustomComponent {...props} />) and in allowed exceptions (SVGs, etc.)
       'react/jsx-props-no-spreading': [
         2,
         {
           custom: 'ignore',
-          exceptions: ['svg'],
+          exceptions: ['button', 'svg'],
         },
       ],
 
@@ -206,10 +206,18 @@ export default [
           // Natural order. Example: 'item2' < 'item10'.
           type: 'natural',
 
-          // NOTE: Added to support marking aliased imports as internal.
-          tsconfig: {
-            rootDir: '.',
-          },
+          // NOTE: Custom internal path patterns to match aliased imports.
+          internalPattern: [
+            '@components/.+',
+            '@constants$',
+            '@features/.+',
+            '@hooks/.+',
+            '@icons/.+',
+            '@screens/.+',
+            '@store/.+',
+            '@utils/.+',
+            'types/.+',
+          ],
 
           // NOTE: Default values explicitly set for clarity.
           newlinesBetween: 'always',

@@ -1,5 +1,17 @@
 {
   "app": {
-    "title": "PyWhisper Studio"
+    "title": "PyWhisper Studio",
+    "actions": {
+      "transcribe": "Transcribe"
+    },
+    "fileSelector": {
+      "title": "Upload your file",
+      "description": "Drag and drop a file, or click to select one.",
+      "selectedFilePreview": {
+        "tooltip": {
+          "delete": "Delete file"
+        }
+      }
+    }
   }
 }

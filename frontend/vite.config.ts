@@ -21,9 +21,14 @@ export default defineConfig({
   resolve: {
     alias: {
       '@components': path.resolve(__dirname, './src/shared/components'),
+      '@constants': path.resolve(__dirname, './src/shared/constants.ts'),
       '@features': path.resolve(__dirname, './src/features'),
       '@hooks': path.resolve(__dirname, './src/shared/hooks'),
       '@icons': path.resolve(__dirname, './src/shared/icons'),
+      '@screens': path.resolve(__dirname, './src/screens'),
+      '@store': path.resolve(__dirname, './src/store'),
+      '@utils': path.resolve(__dirname, './src/shared/utils'),
+      types: path.resolve(__dirname, './src/types'),
     },
   },
   server: {
