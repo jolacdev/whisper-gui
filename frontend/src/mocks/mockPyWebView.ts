@@ -8,6 +8,7 @@ import { PyWebViewState } from 'types/pywebview/pywebview-state';
 const eventTarget = new EventTarget();
 
 const baseState: PyWebViewState = {
+  transcriptionFile: null,
   addEventListener(type, callback, options) {
     eventTarget.addEventListener(type, callback as EventListener, options);
   },
@@ -23,7 +24,7 @@ const baseState: PyWebViewState = {
 const mockState = new Proxy(baseState, {
   set(target, prop: string, value) {
     // Set the value on the actual target.
-    target[prop] = value;
+    Reflect.set(target, prop, value); // Equals to: target[prop] = value;
 
     // Mimic PyWebView behavior by automatically dispatching a `change` event on property set.
     target.dispatchEvent(
@@ -46,7 +47,7 @@ const mockApi: PyWebViewApi = {
         '/home/User/The.Lord.of.the.Rings.The.Fellowship.of.the.Ring.2001.Extended.1080p.BluRay.DTS.x264-UltraHD.Remastered.avi',
     };
 
-    mockState.file = mockFile;
+    mockState.transcriptionFile = mockFile;
     return Promise.resolve(mockFile);
   },
   run_transcription: (

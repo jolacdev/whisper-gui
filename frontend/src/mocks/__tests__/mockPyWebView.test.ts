@@ -16,9 +16,17 @@ describe('mockPyWebView (API and State)', () => {
   });
 
   it('should dispatch change event when a state property is set', () => {
-    const expectedObject = { key: 'testProperty', value: 'testValue' };
+    const expectedObject = {
+      key: 'transcriptionFile',
+      value: {
+        absolutePath: '/path/to/test.mp3',
+        name: 'test.mp3',
+        size: 100,
+        type: 'audio',
+      },
+    };
 
-    window.pywebview.state[expectedObject.key] = expectedObject.value;
+    window.pywebview.state.transcriptionFile = expectedObject.value;
 
     expect(listener).toHaveBeenCalledTimes(1);
 
@@ -26,15 +34,15 @@ describe('mockPyWebView (API and State)', () => {
     expect(event.detail).toEqual(expectedObject);
   });
 
-  it('should simulate file selection and update pywebview.state.file', async () => {
+  it('should simulate file selection and update pywebview.state.transcriptionFile', async () => {
     const file = await window.pywebview.api.open_file_dialog();
 
     expect(file).toBeDefined();
-    expect(window.pywebview.state.file).toEqual(file);
+    expect(window.pywebview.state.transcriptionFile).toEqual(file);
 
     expect(listener).toHaveBeenCalled();
     const event = listener.mock.calls[0][0] as CustomEvent;
-    expect(event.detail.key).toBe('file');
+    expect(event.detail.key).toBe('transcriptionFile');
     expect(event.detail.value).toEqual(file);
   });
 

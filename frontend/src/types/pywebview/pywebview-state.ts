@@ -1,10 +1,19 @@
-export type PyWebViewStateEventDetail = {
-  key: string;
-  value: unknown;
+import { FileMetadata } from './pywebview-api';
+
+// NOTE: This type has to be sync with the backend PyWebViewState state attributes.
+export type PyWebViewStateProperties = {
+  transcriptionFile: FileMetadata | null;
 };
 
-export type PyWebViewState = Record<string, unknown> &
-  EventTarget & {
+export type PyWebViewStateEventDetail = {
+  [T in keyof PyWebViewStateProperties]: {
+    key: T;
+    value: PyWebViewStateProperties[T];
+  };
+}[keyof PyWebViewStateProperties];
+
+export type PyWebViewState = EventTarget &
+  PyWebViewStateProperties & {
     addEventListener(
       type: 'change',
       callback: (event: CustomEvent<PyWebViewStateEventDetail>) => void,

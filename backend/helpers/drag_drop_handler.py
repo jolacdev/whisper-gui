@@ -36,7 +36,7 @@ def on_drop(event: dict[str, Any]) -> None:
     if target_id == AllowedDropzoneId.TRANSCRIPTION_FILE_SELECTOR_DROPZONE_ID and len(files):
         file_path = files[0].get("pywebviewFullPath")
         if is_media_file(file_path) and (file_metadata := get_file_metadata_from_path(file_path)):
-            webview.windows[0].state.file = file_metadata
+            webview.windows[0].state.transcriptionFile = file_metadata
             logger.info("File dropped: %s", file_metadata)
 
     logger.debug("Event type: %s. Dropped %s file(s):", event["type"], len(files))

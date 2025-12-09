@@ -9,10 +9,10 @@ const useSyncedTranscriptionFile = () => {
   const setFile = useAppStore((state) => state.setFile);
   const clearFile = useAppStore((state) => state.clearFile);
 
-  // This hook listens for changes to the `file` key in the Python state.
-  const pyWebViewFile = usePyWebViewState<FileMetadata | null>({
+  // This hook listens for changes to the specified key in the Python state.
+  const pyWebViewFile = usePyWebViewState<'transcriptionFile'>({
     initialValue: null,
-    key: 'file',
+    key: 'transcriptionFile',
   });
 
   // Syncs Python state updates to the store.
@@ -38,18 +38,17 @@ const useSyncedTranscriptionFile = () => {
     }
 
     // Avoid updating the Python state if the selected file is the same.
-    const currentPyWebViewFile = window.pywebview.state
-      .file as FileMetadata | null;
+    const currentPyWebViewFile = window.pywebview.state.transcriptionFile;
     if (currentPyWebViewFile?.absolutePath === newFile.absolutePath) {
       return;
     }
 
-    window.pywebview.state.file = newFile;
+    window.pywebview.state.transcriptionFile = newFile;
   };
 
   // Automatically triggers change event to update the store via useEffect.
   const handleClearFile = () => {
-    window.pywebview.state.file = null;
+    window.pywebview.state.transcriptionFile = null;
   };
 
   return { file, handleClearFile, handleDialogFileSelection };
