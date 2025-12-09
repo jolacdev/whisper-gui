@@ -5,31 +5,31 @@ import useAppStore from '@store/useAppStore';
 import { FileMetadata } from 'types/pywebview/pywebview-api';
 
 const useSyncedTranscriptionFile = () => {
-  const file = useAppStore((state) => state.file);
-  const setFile = useAppStore((state) => state.setFile);
-  const clearFile = useAppStore((state) => state.clearFile);
+  const file = useAppStore((state) => state.transcriptionFile);
+  const setFile = useAppStore((state) => state.setTranscriptionFile);
+  const clearFile = useAppStore((state) => state.clearTranscriptionFile);
 
   // This hook listens for changes to the specified key in the Python state.
-  const pyWebViewFile = usePyWebViewState<'transcriptionFile'>({
+  const pyWebViewTranscriptionFile = usePyWebViewState<'transcriptionFile'>({
     initialValue: null,
     key: 'transcriptionFile',
   });
 
   // Syncs Python state updates to the store.
   useEffect(() => {
-    if (!pyWebViewFile) {
+    if (!pyWebViewTranscriptionFile) {
       // Clear store if Python state is null.
       clearFile();
       return;
     }
 
-    if (pyWebViewFile.absolutePath === file?.absolutePath) {
+    if (pyWebViewTranscriptionFile.absolutePath === file?.absolutePath) {
       // Avoid setting the store if the file is the same.
       return;
     }
 
-    setFile({ ...pyWebViewFile });
-  }, [pyWebViewFile, clearFile, file, setFile]);
+    setFile({ ...pyWebViewTranscriptionFile });
+  }, [pyWebViewTranscriptionFile, clearFile, file, setFile]);
 
   // Handles dialog file selection, which updates Python state, triggering the useEffect to update the store.
   const handleDialogFileSelection = (newFile: FileMetadata | null) => {

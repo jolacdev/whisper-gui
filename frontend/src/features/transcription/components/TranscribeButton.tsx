@@ -8,7 +8,7 @@ import useAppStore from '@store/useAppStore';
 const TranscribeButton = () => {
   const { t } = useTranslation(undefined, { keyPrefix: 'actions' });
 
-  const file = useAppStore((state) => state.file);
+  const file = useAppStore((state) => state.transcriptionFile);
 
   // TODO: Temporary local state for transcribing status.
   const [isTranscribing, setIsTranscribing] = useState(false);

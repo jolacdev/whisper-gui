@@ -4,20 +4,20 @@ import { devtools } from 'zustand/middleware';
 import { FileMetadata } from 'types/pywebview/pywebview-api';
 
 type StoreState = {
-  file: FileMetadata | null;
   model: null | string;
+  transcriptionFile: FileMetadata | null;
 };
 
 type StoreActions = {
-  clearFile: () => void;
-  setFile: (file: FileMetadata) => void;
+  clearTranscriptionFile: () => void;
+  setTranscriptionFile: (file: FileMetadata) => void;
 };
 
 type Store = StoreState & StoreActions;
 
 const initialState: StoreState = {
-  file: null,
   model: null,
+  transcriptionFile: null,
 };
 
 const useAppStore = create<Store>()(
@@ -27,8 +27,14 @@ const useAppStore = create<Store>()(
         ...initialState,
 
         // Actions
-        clearFile: () => set({ file: null }, undefined, 'file/clear'),
-        setFile: (file) => set({ file }, undefined, 'file/set'),
+        clearTranscriptionFile: () =>
+          set(
+            { transcriptionFile: null },
+            undefined,
+            'transcriptionFile/clear',
+          ),
+        setTranscriptionFile: (file) =>
+          set({ transcriptionFile: file }, undefined, 'transcriptionFile/set'),
       };
 
       return store;
