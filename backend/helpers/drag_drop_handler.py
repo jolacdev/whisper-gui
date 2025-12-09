@@ -35,9 +35,9 @@ def on_drop(event: dict[str, Any]) -> None:
     # TODO: Support multiple file drops.
     if target_id == AllowedDropzoneId.TRANSCRIPTION_FILE_SELECTOR_DROPZONE_ID and len(files):
         file_path = files[0].get("pywebviewFullPath")
-        if is_media_file(file_path) and (file := get_file_metadata_from_path(file_path)):
-            webview.windows[0].state.file = file
-            logger.info("File dropped: %s", file)
+        if is_media_file(file_path) and (file_metadata := get_file_metadata_from_path(file_path)):
+            webview.windows[0].state.file = file_metadata
+            logger.info("File dropped: %s", file_metadata)
 
     logger.debug("Event type: %s. Dropped %s file(s):", event["type"], len(files))
     for f in files:

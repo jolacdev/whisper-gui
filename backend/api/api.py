@@ -38,9 +38,9 @@ class PyWebViewApi:
             return None
 
         file_path = str(result) if not isinstance(result, (tuple, list)) else str(result[0])
-        file = get_file_metadata_from_path(file_path)
-        logger.info("File picked: %s", file)
-        return file
+        file_metadata = get_file_metadata_from_path(file_path)
+        logger.info("File picked: %s", file_metadata)
+        return file_metadata
 
     # TODO: Print messages for debugging purposes, remove whe not needed.
     # TODO: Online audio example: https://keithito.com/LJ-Speech-Dataset/LJ037-0171.wav

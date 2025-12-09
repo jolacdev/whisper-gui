@@ -3,7 +3,7 @@ from typing import TypedDict
 
 class FileMetadata(TypedDict):
     """
-    Represents a file selected in the application.
+    Represents file metadata of the file selected in the application.
 
     Attributes:
         name (str): The name of the file.
