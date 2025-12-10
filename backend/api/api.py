@@ -11,7 +11,7 @@ from schemas.transcription import TranscriptionSegment
 from service.whisper_service import whisper_service
 from utils.media_utils import get_file_metadata_from_path, get_media_dialog_file_types
 from utils.time_utils import format_seconds_to_srt_time as secs_to_srt
-from utils.whisper_utils import format_segments
+from utils.whisper_utils import process_segments
 
 # NOTE: Prefer using Union/Optional over `|` to support PyFlow-TS proper type generation.
 # https://github.com/ExtensityAI/PyFlow.ts?tab=readme-ov-file#custom-type-mappings
@@ -53,12 +53,13 @@ class PyWebViewApi:
                 raise ValueError("Transcription result returned `None`")
 
             raw_segments, info = transcription_result
+            duration = info.duration
 
             logger.debug("Transcription info: %s", info)
             logger.info("Starting transcription of: %s", file_path)
 
             start_time_ms = time() * 1000
-            segments = format_segments(raw_segments)
+            segments = process_segments(raw_segments, duration)
             end_time_ms = time() * 1000
 
             for s in segments:

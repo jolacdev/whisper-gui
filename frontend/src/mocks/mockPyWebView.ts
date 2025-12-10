@@ -9,6 +9,7 @@ const eventTarget = new EventTarget();
 
 const baseState: PyWebViewState = {
   transcriptionFile: null,
+  transcriptionProgress: null,
   addEventListener(type, callback, options) {
     eventTarget.addEventListener(type, callback as EventListener, options);
   },
@@ -50,11 +51,19 @@ const mockApi: PyWebViewApi = {
     mockState.transcriptionFile = mockFile;
     return Promise.resolve(mockFile);
   },
-  run_transcription: (
+  run_transcription: async (
     _file_path: string,
     _model_name: string,
   ): Promise<TranscriptionSegment[]> => {
-    const mockDelay = 2000;
+    const delayPerStep = 500;
+    const totalSteps = 15;
+
+    // Simulate progress updates from 0% to 100%
+    for (let step = 0; step <= totalSteps; step++) {
+      mockState.transcriptionProgress = Math.round((step / totalSteps) * 100);
+      await new Promise((resolve) => setTimeout(resolve, delayPerStep));
+    }
+
     const mockSegments: TranscriptionSegment[] = [
       {
         id: 1,
@@ -76,9 +85,7 @@ const mockApi: PyWebViewApi = {
       },
     ];
 
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(mockSegments), mockDelay);
-    });
+    return mockSegments;
   },
 };
 

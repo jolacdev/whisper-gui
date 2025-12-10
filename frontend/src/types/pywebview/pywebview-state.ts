@@ -3,6 +3,7 @@ import { FileMetadata } from './pywebview-api';
 // NOTE: This type has to be sync with the backend PyWebViewState state attributes.
 export type PyWebViewStateProperties = {
   transcriptionFile: FileMetadata | null;
+  transcriptionProgress: null | number;
 };
 
 export type PyWebViewStateEventDetail = {
