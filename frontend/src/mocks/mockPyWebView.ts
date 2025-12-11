@@ -8,6 +8,7 @@ import { PyWebViewState } from 'types/pywebview/pywebview-state';
 const eventTarget = new EventTarget();
 
 const baseState: PyWebViewState = {
+  transcriptionAbort: null,
   transcriptionFile: null,
   transcriptionProgress: null,
   addEventListener(type, callback, options) {

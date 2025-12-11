@@ -58,6 +58,10 @@ class PyWebViewApi:
             logger.debug("Transcription info: %s", info)
             logger.info("Starting transcription of: %s", file_path)
 
+            # Reset transcription state
+            webview.windows[0].state.transcriptionProgress = None
+            webview.windows[0].state.transcriptionAbort = False
+
             start_time_ms = time() * 1000
             segments = process_segments(raw_segments, duration)
             end_time_ms = time() * 1000
