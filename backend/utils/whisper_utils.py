@@ -4,6 +4,7 @@ from collections.abc import Iterable
 import webview
 from faster_whisper.transcribe import Segment
 
+from constants import TRANSCRIPTION_PROGRESS_MAX_VALUE, TRANSCRIPTION_PROGRESS_MIN_VALUE
 from schemas.transcription import TranscriptionSegment
 
 logger = logging.getLogger(__name__)
@@ -33,5 +34,5 @@ def process_segments(raw_segments: Iterable[Segment], duration: float) -> list[T
 def _update_transcription_progress(duration: float, elapsed: float) -> None:
     """Updates the transcription progress in the webview state."""
     progress = int(round(elapsed / duration * 100))
-    progress = max(0, min(100, progress))  # Ensure progress is within 0-100.
+    progress = max(TRANSCRIPTION_PROGRESS_MIN_VALUE, min(TRANSCRIPTION_PROGRESS_MAX_VALUE, progress))
     webview.windows[0].state.transcriptionProgress = progress

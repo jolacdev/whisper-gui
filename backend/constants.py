@@ -38,3 +38,9 @@ AUDIO_EXTENSIONS = [
 # NOTE: Must match the corresponding constant in the React code.
 class AllowedDropzoneId(str, Enum):
     TRANSCRIPTION_FILE_SELECTOR_DROPZONE_ID = "file-dropzone"
+
+
+# Transcription Progress
+# NOTE: Must match the corresponding constant in the React code.
+TRANSCRIPTION_PROGRESS_MIN_VALUE = 0
+TRANSCRIPTION_PROGRESS_MAX_VALUE = 100

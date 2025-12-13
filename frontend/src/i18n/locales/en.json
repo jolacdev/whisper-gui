@@ -4,6 +4,11 @@
     "actions": {
       "transcribe": "Transcribe"
     },
+    "shared": {
+      "progressLoader": {
+        "value": "{{value}}%"
+      }
+    },
     "fileSelector": {
       "title": "Upload your file",
       "description": "Drag and drop a file, or click to select one.",
