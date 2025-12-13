@@ -44,7 +44,7 @@ const ProgressLoader = ({
           style={
             {
               '--size': size,
-              '--value': TRANSCRIPTION_PROGRESS_MIN_VALUE,
+              '--value': TRANSCRIPTION_PROGRESS_MAX_VALUE,
             } as CSSProperties
           }
         />
