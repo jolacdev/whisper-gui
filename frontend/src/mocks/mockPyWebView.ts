@@ -56,13 +56,27 @@ const mockApi: PyWebViewApi = {
     _file_path: string,
     _model_name: string,
   ): Promise<TranscriptionSegment[]> => {
+    mockState.transcriptionProgress = null;
+    mockState.transcriptionAbort = false;
+
     const delayPerStep = 500;
     const totalSteps = 15;
 
     // Simulate progress updates from 0% to 100%
     for (let step = 0; step <= totalSteps; step++) {
+      if (mockState.transcriptionAbort) {
+        break;
+      }
+
+      const isInitializing = step === 0;
+      const delay = isInitializing ? delayPerStep * 5 : delayPerStep;
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
       mockState.transcriptionProgress = Math.round((step / totalSteps) * 100);
-      await new Promise((resolve) => setTimeout(resolve, delayPerStep));
+    }
+
+    if (mockState.transcriptionAbort) {
+      return []; // TODO: Return null?
     }
 
     const mockSegments: TranscriptionSegment[] = [
