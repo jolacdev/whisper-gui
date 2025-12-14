@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
   PyWebViewStateEventDetail,
@@ -16,13 +16,16 @@ function usePyWebViewState<T extends keyof PyWebViewStateProperties>({
   key,
 }: UsePyWebViewProps<T> & {
   initialValue: PyWebViewStateProperties[T];
-}): PyWebViewStateProperties[T];
+}): [PyWebViewStateProperties[T], (value: PyWebViewStateProperties[T]) => void];
 
 // Overload with OPTIONAL initialValue. Returns the key's possible values or undefined.
 function usePyWebViewState<T extends keyof PyWebViewStateProperties>({
   initialValue,
   key,
-}: UsePyWebViewProps<T>): PyWebViewStateProperties[T] | undefined;
+}: UsePyWebViewProps<T>): [
+  PyWebViewStateProperties[T] | undefined,
+  (value: PyWebViewStateProperties[T]) => void,
+];
 
 // Actual implementation
 function usePyWebViewState<T extends keyof PyWebViewStateProperties>({
@@ -49,7 +52,19 @@ function usePyWebViewState<T extends keyof PyWebViewStateProperties>({
     };
   }, [key]);
 
-  return value;
+  // NOTE: This will update the local state by triggering the change event.
+  const setPyWebViewValue = useCallback(
+    (newValue: PyWebViewStateProperties[T]) => {
+      // Only update if the value has changed.
+      if (window.pywebview.state[key] !== newValue) {
+        // @ts-expect-error - PyWebViewState is an intersection type, TS struggles to map T back to it
+        window.pywebview.state[key] = newValue;
+      }
+    },
+    [key],
+  );
+
+  return [value, setPyWebViewValue];
 }
 
 export default usePyWebViewState;

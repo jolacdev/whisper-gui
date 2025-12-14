@@ -10,26 +10,27 @@ const useSyncedTranscriptionFile = () => {
   const clearFile = useAppStore((state) => state.clearTranscriptionFile);
 
   // This hook listens for changes to the specified key in the Python state.
-  const pyWebViewTranscriptionFile = usePyWebViewState<'transcriptionFile'>({
-    initialValue: null,
-    key: 'transcriptionFile',
-  });
+  const [transcriptionFile, setTranscriptionFile] =
+    usePyWebViewState<'transcriptionFile'>({
+      initialValue: null,
+      key: 'transcriptionFile',
+    });
 
   // Syncs Python state updates to the store.
   useEffect(() => {
-    if (!pyWebViewTranscriptionFile) {
+    if (!transcriptionFile) {
       // Clear store if Python state is null.
       clearFile();
       return;
     }
 
-    if (pyWebViewTranscriptionFile.absolutePath === file?.absolutePath) {
+    if (transcriptionFile.absolutePath === file?.absolutePath) {
       // Avoid setting the store if the file is the same.
       return;
     }
 
-    setFile({ ...pyWebViewTranscriptionFile });
-  }, [pyWebViewTranscriptionFile, clearFile, file, setFile]);
+    setFile({ ...transcriptionFile });
+  }, [transcriptionFile, clearFile, file, setFile]);
 
   // Handles dialog file selection, which updates Python state, triggering the useEffect to update the store.
   const handleDialogFileSelection = (newFile: FileMetadata | null) => {
@@ -38,17 +39,16 @@ const useSyncedTranscriptionFile = () => {
     }
 
     // Avoid updating the Python state if the selected file is the same.
-    const currentPyWebViewFile = window.pywebview.state.transcriptionFile;
-    if (currentPyWebViewFile?.absolutePath === newFile.absolutePath) {
+    if (transcriptionFile?.absolutePath === newFile.absolutePath) {
       return;
     }
 
-    window.pywebview.state.transcriptionFile = newFile;
+    setTranscriptionFile(newFile);
   };
 
   // Automatically triggers change event to update the store via useEffect.
   const handleClearFile = () => {
-    window.pywebview.state.transcriptionFile = null;
+    setTranscriptionFile(null);
   };
 
   return { file, handleClearFile, handleDialogFileSelection };
