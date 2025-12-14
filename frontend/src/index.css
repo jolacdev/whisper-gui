@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@plugin 'daisyui';
 
 /* NOTE: https://daisyui.com/docs/themes/#-7 */
 /* Enable only 'business' theme. */
@@ -7,13 +6,15 @@
   themes: business;
 }
 
-/* Customize 'business' theme. */
+/* DaisyUI Business Theme Variables Customizations. */
 @plugin 'daisyui/theme' {
   name: 'business';
   default: true;
   --color-primary: #209a58;
 }
 
+/* DaisyUI Business Theme Classes Customizations */
+/* https://daisyui.com/docs/themes/#how-to-add-custom-styles-for-a-specific-theme */
 [data-theme='business'] {
   .btn {
     &:active,
@@ -55,10 +56,45 @@
   --color-leaf-950: #209a58;
 }
 
-body {
-  margin: 0 auto;
-  max-width: 80rem; /* 1280px */
-  font-family:
-    'Helvetica', 'Arial', ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+/* Base layer is used to define simple default styles */
+/* https://tailwindcss.com/docs/adding-custom-styles */
+@layer base {
+  body {
+    font-family:
+      'Helvetica', 'Arial', ui-sans-serif, system-ui, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
+    margin: 0 auto;
+    max-width: 80rem; /* 1280px */
+  }
+
+  /* h1 { font-size: var(--font-size-6xl); } */
+}
+
+/* Ellipsis animation */
+@utility animate-ellipsis {
+  &::after {
+    content: '';
+    display: inline-block;
+    animation: ellipsis 1.5s steps(1, end) infinite;
+    width: 1px; /* Prevent layout shift */
+  }
+}
+
+@keyframes ellipsis {
+  0% {
+    content: '';
+  }
+  25% {
+    content: '.';
+  }
+  50% {
+    content: '..';
+  }
+  75% {
+    content: '...';
+  }
+  100% {
+    content: '';
+  }
 }
