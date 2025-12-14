@@ -45,6 +45,10 @@ class PyWebViewApi:
     # TODO: Print messages for debugging purposes, remove whe not needed.
     # TODO: Online audio example: https://keithito.com/LJ-Speech-Dataset/LJ037-0171.wav
     def run_transcription(self, file_path: str, model_name: str) -> list[TranscriptionSegment]:
+        # Reset transcription state
+        webview.windows[0].state.transcriptionProgress = None
+        webview.windows[0].state.transcriptionAbort = False
+
         if model_name not in faster_whisper.available_models():
             raise ValueError(f"Model '{model_name}' is not available.")
 
@@ -57,10 +61,6 @@ class PyWebViewApi:
 
             logger.debug("Transcription info: %s", info)
             logger.info("Starting transcription of: %s", file_path)
-
-            # Reset transcription state
-            webview.windows[0].state.transcriptionProgress = None
-            webview.windows[0].state.transcriptionAbort = False
 
             start_time_ms = time() * 1000
             segments = process_segments(raw_segments, duration)
