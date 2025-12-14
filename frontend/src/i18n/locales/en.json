@@ -17,6 +17,14 @@
           "delete": "Delete file"
         }
       }
+    },
+    "transcription": {
+      "status": {
+        "initializing": "Loading model",
+        "transcribing": "Transcribing",
+        "completed": "Transcription completed"
+      },
+      "cancel": "Cancel"
     }
   }
 }

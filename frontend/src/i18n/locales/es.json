@@ -17,6 +17,14 @@
           "delete": "Borrar archivo"
         }
       }
+    },
+    "transcription": {
+      "status": {
+        "initializing": "Cargando modelo",
+        "transcribing": "Transcribiendo",
+        "completed": "Transcripción completada"
+      },
+      "cancel": "Cancelar"
     }
   }
 }
