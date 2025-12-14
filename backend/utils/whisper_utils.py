@@ -25,6 +25,8 @@ def process_segments(raw_segments: Iterable[Segment], duration: float) -> list[T
         segments.append(segment)
 
     if webview.windows[0].state.transcriptionAbort:
+        # Reset transcription progress on abort
+        webview.windows[0].state.transcriptionProgress = None
         return []  # TODO: Return None?
 
     _update_transcription_progress(duration=duration, elapsed=duration)  # Update progress to 100%
