@@ -12,7 +12,7 @@ const useSyncedTranscriptionFile = () => {
   // This hook listens for changes to the specified key in the Python state.
   const [transcriptionFile, setTranscriptionFile] =
     usePyWebViewState<'transcriptionFile'>({
-      initialValue: null,
+      initialValue: window.pywebview.state.transcriptionFile ?? null,
       key: 'transcriptionFile',
     });
 
