@@ -1,0 +1,27 @@
+/* Loading Dots (Ellipsis) Animation */
+@utility animate-loading-dots {
+  &::after {
+    content: '';
+    display: inline-block;
+    animation: loading-dots 1.5s steps(1, end) infinite;
+    width: 1px; /* Prevent layout shift */
+  }
+}
+
+@keyframes loading-dots {
+  0% {
+    content: '';
+  }
+  25% {
+    content: '.';
+  }
+  50% {
+    content: '..';
+  }
+  75% {
+    content: '...';
+  }
+  100% {
+    content: '';
+  }
+}

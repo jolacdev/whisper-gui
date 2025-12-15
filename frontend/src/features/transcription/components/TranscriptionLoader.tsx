@@ -15,7 +15,7 @@ const TranscriptionLoader = () => {
   return (
     <div className="flex flex-col items-center gap-4">
       <ProgressLoader value={progress} />
-      <span className={cx({ 'animate-ellipsis': !hasFinished })}>
+      <span className={cx({ 'animate-loading-dots': !hasFinished })}>
         {t(`status.${status}`)}
       </span>
       <Button className="btn-outline p-2 px-4" onClick={cancelTranscription}>
