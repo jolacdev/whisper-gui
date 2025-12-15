@@ -47,11 +47,51 @@ describe('mockPyWebView (API and State)', () => {
   });
 
   it('should simulate transcription and return mocked segments', async () => {
-    const segments = await window.pywebview.api.run_transcription(
+    vi.useFakeTimers();
+
+    const transcriptionPromise = window.pywebview.api.run_transcription(
       'dummyPath',
       'dummyModel',
     );
 
+    await vi.runAllTimersAsync();
+    const segments = await transcriptionPromise;
+
     expect(segments).toHaveLength(3);
+
+    vi.useRealTimers();
+  });
+
+  it('should update transcriptionProgress during run_transcription', async () => {
+    vi.useFakeTimers();
+    const stepDelayMs = 500;
+    const initialDelayMs = stepDelayMs * 5;
+
+    const transcriptionPromise = window.pywebview.api.run_transcription(
+      'dummyPath',
+      'dummyModel',
+    );
+
+    expect(window.pywebview.state.transcriptionProgress).toBeNull();
+
+    // Wait for initial step
+    await vi.advanceTimersByTimeAsync(initialDelayMs);
+    expect(window.pywebview.state.transcriptionProgress).toBe(0);
+
+    // Advance partially
+    await vi.advanceTimersByTimeAsync(stepDelayMs * 5);
+    expect(window.pywebview.state.transcriptionProgress).toBeGreaterThan(0);
+    expect(window.pywebview.state.transcriptionProgress).toBeLessThan(100);
+
+    // Advance remaining steps
+    await vi.advanceTimersByTimeAsync(stepDelayMs * 10);
+    expect(window.pywebview.state.transcriptionProgress).toBe(100);
+
+    const segments = await transcriptionPromise;
+
+    expect(window.pywebview.state.transcriptionProgress).toBe(100);
+    expect(segments).toHaveLength(3);
+
+    vi.useRealTimers();
   });
 });
