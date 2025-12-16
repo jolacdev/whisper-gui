@@ -1,4 +1,10 @@
+# minimumReleaseAge — default: 0 (minutes)
 minimumReleaseAge: 20160 # 2 Weeks
 # minimumReleaseAge: 43800 # 1 Month
 # minimumReleaseAge: 10080 # 1 Week
 # minimumReleaseAge: 1440 # 1 Day
+
+# Exclude core packages to address server components vulnerabilities
+minimumReleaseAgeExclude:
+  - react
+  - react-dom
