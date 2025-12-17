@@ -1,19 +1,33 @@
 import cx from 'classnames';
+import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '@components/Button';
 import ProgressLoader from '@components/ProgressLoader';
 
+import { transcriptionLoaderVariants } from '../animation-variants';
 import { useSyncedTranscription } from '../hooks/useSyncedTranscription';
 
-const TranscriptionLoader = () => {
+type TranscriptionLoaderProps = {
+  className?: string;
+};
+
+const TranscriptionLoader = ({
+  className = undefined,
+}: TranscriptionLoaderProps) => {
   const { t } = useTranslation(undefined, { keyPrefix: 'transcription' });
 
   const { cancelTranscription, progress, status, hasFinished } =
     useSyncedTranscription();
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <motion.div
+      animate="mount"
+      className={cx('flex flex-col items-center gap-4', className)}
+      exit="unmount"
+      initial="initial"
+      variants={transcriptionLoaderVariants}
+    >
       <ProgressLoader value={progress} />
       <span className={cx({ 'animate-loading-dots': !hasFinished })}>
         {t(`status.${status}`)}
@@ -21,7 +35,7 @@ const TranscriptionLoader = () => {
       <Button className="btn-outline p-2 px-4" onClick={cancelTranscription}>
         {t('cancel')}
       </Button>
-    </div>
+    </motion.div>
   );
 };
 

@@ -17,6 +17,7 @@ type StoreState = {
 };
 
 type StoreActions = {
+  clearStore: () => void;
   clearTranscriptionFile: () => void;
   setTranscriptionFile: (file: FileMetadata) => void;
   setView: (view: AppView) => void;
@@ -32,11 +33,13 @@ const initialState: StoreState = {
 
 const useAppStore = create<Store>()(
   devtools(
-    (set) => {
-      const store: Store = {
+    (set, _get, store) => {
+      const appStore: Store = {
         ...initialState,
 
         // Actions
+        clearStore: () => set(store.getInitialState()),
+
         clearTranscriptionFile: () =>
           set(
             { transcriptionFile: null },
@@ -49,7 +52,7 @@ const useAppStore = create<Store>()(
         setView: (view) => set({ currentView: view }, undefined, 'view/set'),
       };
 
-      return store;
+      return appStore;
     },
     { store: 'appStore' },
   ),
