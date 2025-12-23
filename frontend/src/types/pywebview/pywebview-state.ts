@@ -2,10 +2,22 @@ import { FileMetadata } from './pywebview-api';
 
 // NOTE: This type has to be sync with the backend PyWebViewState state attributes.
 export type PyWebViewStateProperties = {
-  transcriptionAbort: boolean | null;
   transcriptionFile: FileMetadata | null;
   transcriptionProgress: null | number;
+  isAbortRequested: boolean | null;
 };
+
+// NOTE: Dummy object used only to extract the keys of the PyWebViewStateProperties type.
+const dummyPyWebViewStateProperties: PyWebViewStateProperties = {
+  transcriptionFile: null,
+  transcriptionProgress: null,
+  isAbortRequested: null,
+};
+
+// NOTE: List of keys of the PyWebViewStateProperties type.
+export const stateKeys = Object.keys(
+  dummyPyWebViewStateProperties,
+) as (keyof PyWebViewStateProperties)[];
 
 export type PyWebViewStateEventDetail = {
   [T in keyof PyWebViewStateProperties]: {

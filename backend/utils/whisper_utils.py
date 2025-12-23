@@ -15,7 +15,7 @@ def process_segments(raw_segments: Iterable[Segment], duration: float) -> list[T
 
     segments: list[TranscriptionSegment] = []
     for s in raw_segments:
-        if webview.windows[0].state.transcriptionAbort:
+        if webview.windows[0].state.isAbortRequested:
             logger.info("Transcription aborted by user.")
             break
 
@@ -24,7 +24,7 @@ def process_segments(raw_segments: Iterable[Segment], duration: float) -> list[T
         segment: TranscriptionSegment = {"id": s.id, "start": s.start, "end": s.end, "text": s.text.strip()}
         segments.append(segment)
 
-    if webview.windows[0].state.transcriptionAbort:
+    if webview.windows[0].state.isAbortRequested:
         # Reset transcription progress on abort
         webview.windows[0].state.transcriptionProgress = None
         return []  # TODO: Return None?

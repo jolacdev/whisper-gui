@@ -8,9 +8,9 @@ import { PyWebViewState } from 'types/pywebview/pywebview-state';
 const eventTarget = new EventTarget();
 
 const baseState: PyWebViewState = {
-  transcriptionAbort: null,
   transcriptionFile: null,
   transcriptionProgress: null,
+  isAbortRequested: null,
   addEventListener(type, callback, options) {
     eventTarget.addEventListener(type, callback as EventListener, options);
   },
@@ -57,14 +57,14 @@ const mockApi: PyWebViewApi = {
     _model_name: string,
   ): Promise<TranscriptionSegment[]> => {
     mockState.transcriptionProgress = null;
-    mockState.transcriptionAbort = false;
+    mockState.isAbortRequested = false;
 
     const delayPerStep = 500;
     const totalSteps = 15;
 
     // Simulate progress updates from 0% to 100%
     for (let step = 0; step <= totalSteps; step++) {
-      if (mockState.transcriptionAbort) {
+      if (mockState.isAbortRequested) {
         break;
       }
 
@@ -75,7 +75,7 @@ const mockApi: PyWebViewApi = {
       mockState.transcriptionProgress = Math.round((step / totalSteps) * 100);
     }
 
-    if (mockState.transcriptionAbort) {
+    if (mockState.isAbortRequested) {
       return []; // TODO: Return null?
     }
 

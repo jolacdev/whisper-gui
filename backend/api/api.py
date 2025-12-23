@@ -47,7 +47,7 @@ class PyWebViewApi:
     def run_transcription(self, file_path: str, model_name: str) -> list[TranscriptionSegment]:
         # Reset transcription state
         webview.windows[0].state.transcriptionProgress = None
-        webview.windows[0].state.transcriptionAbort = False
+        webview.windows[0].state.isAbortRequested = False
 
         if model_name not in faster_whisper.available_models():
             raise ValueError(f"Model '{model_name}' is not available.")

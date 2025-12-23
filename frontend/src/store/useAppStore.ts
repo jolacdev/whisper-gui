@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { FileMetadata } from 'types/pywebview/pywebview-api';
+import { stateKeys } from 'types/pywebview/pywebview-state';
 
 export const APP_VIEWS = {
   SELECTION: 'SELECTION',
@@ -38,7 +39,15 @@ const useAppStore = create<Store>()(
         ...initialState,
 
         // Actions
-        clearStore: () => set(store.getInitialState()),
+        clearStore: () => {
+          set(store.getInitialState());
+
+          stateKeys.forEach((key) => {
+            if (window.pywebview.state[key]) {
+              window.pywebview.state[key] = null;
+            }
+          });
+        },
 
         clearTranscriptionFile: () =>
           set(
