@@ -17,8 +17,10 @@ const TranscriptionLoader = ({
 }: TranscriptionLoaderProps) => {
   const { t } = useTranslation(undefined, { keyPrefix: 'transcription' });
 
-  const { cancelTranscription, progress, status, hasFinished } =
-    useSyncedTranscription();
+  const {
+    actions: { cancelTranscription },
+    state: { progress, status, hasFinished, isAbortRequested },
+  } = useSyncedTranscription();
 
   return (
     <motion.div
@@ -32,7 +34,11 @@ const TranscriptionLoader = ({
       <span className={cx({ 'animate-loading-dots': !hasFinished })}>
         {t(`status.${status}`)}
       </span>
-      <Button className="btn-outline p-2 px-4" onClick={cancelTranscription}>
+      <Button
+        className="btn-outline p-2 px-4"
+        disabled={!!isAbortRequested}
+        onClick={cancelTranscription}
+      >
         {t('cancel')}
       </Button>
     </motion.div>

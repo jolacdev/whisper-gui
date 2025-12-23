@@ -27,15 +27,15 @@ export const useSyncedTranscription = () => {
     initialValue: null,
     key: 'transcriptionProgress',
   });
-
-  const [isTranscriptionAborted, setIsTranscriptionAborted] =
-    usePyWebViewState<'transcriptionAbort'>({
-      key: 'transcriptionAbort',
+  const [isAbortRequested, setIsAbortRequested] =
+    usePyWebViewState<'isAbortRequested'>({
+      initialValue: false,
+      key: 'isAbortRequested',
     });
 
   const cancelTranscription = () => {
-    if (!isTranscriptionAborted) {
-      setIsTranscriptionAborted(true);
+    if (!isAbortRequested) {
+      setIsAbortRequested(true);
     }
 
     setView(APP_VIEWS.SELECTION);
@@ -46,9 +46,14 @@ export const useSyncedTranscription = () => {
   const status = getTranscriptionStatus(currentProgress);
 
   return {
-    cancelTranscription,
-    progress: currentProgress,
-    status,
-    hasFinished,
+    actions: {
+      cancelTranscription,
+    },
+    state: {
+      progress: currentProgress,
+      status,
+      hasFinished,
+      isAbortRequested,
+    },
   };
 };
