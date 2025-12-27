@@ -47,6 +47,7 @@ class PyWebViewApi:
     def run_transcription(self, file_path: str, model_name: str) -> list[TranscriptionSegment]:
         # Reset transcription state
         webview.windows[0].state.transcriptionProgress = None
+        webview.windows[0].state.transcriptionRemainingSeconds = None
         webview.windows[0].state.isAbortRequested = False
 
         if model_name not in faster_whisper.available_models():
@@ -57,13 +58,13 @@ class PyWebViewApi:
                 raise ValueError("Transcription result returned `None`")
 
             raw_segments, info = transcription_result
-            duration = info.duration
+            total_duration_seconds = info.duration
 
             logger.debug("Transcription info: %s", info)
             logger.info("Starting transcription of: %s", file_path)
 
             start_time_ms = time() * 1000
-            segments = process_segments(raw_segments, duration)
+            segments = process_segments(raw_segments, total_duration_seconds, start_time_ms)
             end_time_ms = time() * 1000
 
             for s in segments:

@@ -8,6 +8,7 @@ import {
 
 type ProgressLoaderProps = {
   value: number;
+  remainingSeconds?: number;
   size?: CSSProperties['width'];
   isProgressTextVisible?: boolean;
   isTrackVisible?: boolean;
@@ -17,6 +18,7 @@ const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
 
 const ProgressLoader = ({
+  remainingSeconds = undefined,
   size = '12rem',
   value,
   isProgressTextVisible = true,
@@ -29,6 +31,11 @@ const ProgressLoader = ({
     TRANSCRIPTION_PROGRESS_MIN_VALUE,
     TRANSCRIPTION_PROGRESS_MAX_VALUE,
   );
+
+  const shouldShowRemainingSeconds =
+    remainingSeconds !== undefined &&
+    clampedValue > TRANSCRIPTION_PROGRESS_MIN_VALUE &&
+    clampedValue < TRANSCRIPTION_PROGRESS_MAX_VALUE;
 
   return (
     <div
@@ -60,9 +67,18 @@ const ProgressLoader = ({
         }
       >
         {isProgressTextVisible && (
-          <span className="text-primary-content text-4xl">
-            {t('shared.progressLoader.value', { value: clampedValue })}
-          </span>
+          <div className="flex flex-col items-center justify-center">
+            <span className="text-primary-content text-4xl">
+              {t('shared.progressLoader.value', { value: clampedValue })}
+            </span>
+            {shouldShowRemainingSeconds && (
+              <span className="text-base-content/50 mt-2 text-sm font-medium">
+                {t('shared.progressLoader.remainingTime', {
+                  seconds: remainingSeconds,
+                })}
+              </span>
+            )}
+          </div>
         )}
       </div>
     </div>

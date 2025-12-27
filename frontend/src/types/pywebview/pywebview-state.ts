@@ -4,6 +4,7 @@ import { FileMetadata } from './pywebview-api';
 export type PyWebViewStateProperties = {
   transcriptionFile: FileMetadata | null;
   transcriptionProgress: null | number;
+  transcriptionRemainingSeconds: null | number;
   isAbortRequested: boolean | null;
 };
 
@@ -11,6 +12,7 @@ export type PyWebViewStateProperties = {
 const dummyPyWebViewStateProperties: PyWebViewStateProperties = {
   transcriptionFile: null,
   transcriptionProgress: null,
+  transcriptionRemainingSeconds: null,
   isAbortRequested: null,
 };
 

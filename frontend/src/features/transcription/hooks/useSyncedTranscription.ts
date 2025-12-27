@@ -54,6 +54,11 @@ export const useSyncedTranscription = ({
       initialValue: false,
       key: 'isAbortRequested',
     });
+  const [transcriptionRemainingSeconds] =
+    usePyWebViewState<'transcriptionRemainingSeconds'>({
+      initialValue: null,
+      key: 'transcriptionRemainingSeconds',
+    });
 
   const isTranscribingRef = useRef(false);
 
@@ -123,6 +128,7 @@ export const useSyncedTranscription = ({
     state: {
       progress: currentProgress,
       status,
+      transcriptionRemainingSeconds,
       hasFinished,
     },
   };

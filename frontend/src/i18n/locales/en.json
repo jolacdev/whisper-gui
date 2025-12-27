@@ -6,7 +6,8 @@
     },
     "shared": {
       "progressLoader": {
-        "value": "{{value}}%"
+        "value": "{{value}}%",
+        "remainingTime": "{{seconds}}s remaining"
       }
     },
     "fileSelector": {
