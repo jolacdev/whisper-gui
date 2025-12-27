@@ -26,7 +26,7 @@ declare global {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <PyWebViewProvider isStandalone={false}>
+    <PyWebViewProvider isStandalone={true}>
       <App />
     </PyWebViewProvider>
   </React.StrictMode>,

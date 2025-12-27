@@ -57,3 +57,7 @@ Consider creating an outline-ghost button variant for secondary actions:
 - Use `@eslint/config-inspector` to debug ESLint flat config.
 
 ---
+
+### Animations
+
+https://motion.dev/docs/react-animate-presence

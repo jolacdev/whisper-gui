@@ -25,3 +25,20 @@
     content: '';
   }
 }
+
+/* Fade In Left Animation */
+@utility animate-fade-in-left {
+  animation: fade-in-left 0.5s ease-out both;
+  animation-delay: calc(var(--index) * 150ms);
+}
+
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
